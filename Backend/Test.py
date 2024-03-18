@@ -38,6 +38,14 @@ def Validation():
         return "TERI MAA"
     return render_template("Validation.html")
 
+@app.route('/submit-form', methods=['POST'])
+def submit_form():
+    data = request.json
+    # Process form data
+    print(data)
+    return 'Form submitted successfully!'
+
+
 
 
 if(__name__=='__main__'):
