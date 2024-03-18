@@ -3,7 +3,7 @@ import axios from 'axios';
 import './style.css';
 
 export default function Signup() {
-    
+
   const[action,setAction] = React.useState("Login");
   const [msg,setMsg] = React.useState({
     username: "",
@@ -28,7 +28,7 @@ export default function Signup() {
     }
   }
 
-    console.log(action)
+   
     return(
       <div className="container">
        <form action="POST"> 
@@ -52,7 +52,7 @@ export default function Signup() {
           </div>
           {action === "Sign Up"?<div></div>:<div className="forgot-password">Lost Password? <span>Click Here!</span></div>
 }
-          <div className="submit-container">
+          <div className="submit-container" >
             <div className={action === "Login"?"submit gray":"submit"}onClick={() => {setAction("Sign Up")}}>
               <h3>SignUp</h3>
             </div>
