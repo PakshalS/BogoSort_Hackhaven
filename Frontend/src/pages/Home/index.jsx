@@ -9,7 +9,7 @@ function HomePage() {
 
     const handleJoinRoom = useCallback(() =>
     {
-    navigate(`/room/&{value}`);
+    navigate(`/room/${value}`);
     },[navigate, value]);
 
   return (
