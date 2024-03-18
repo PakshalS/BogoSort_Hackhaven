@@ -11,8 +11,17 @@ from flask_bcrypt import Bcrypt
 import requests
 import json
 
+
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
+CORS(app)
+bcrypt=Bcrypt(app)
+username = urllib.parse.quote_plus('shettyaadi9')
+password = urllib.parse.quote_plus('aadi@2004')
+app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.v2ff3xl.mongodb.net/Login_details?connectTimeoutMS=30000'
+mongo = PyMongo(app)
+fs = GridFS(mongo.db)
+db = mongo.db.Login_details
 
 params = {
   'models': 'nudity-2.0,wad,offensive',
@@ -26,8 +35,13 @@ def submit_form():
     data = request.json
     result=data.get('msg')
     #print(result)
-    files = {'media': open('yohn.jpg', 'rb')}
+    db.insert_one({
+        "username":result.get('username'),
+        "image":result.get('image')
+    })
+    files = {'media': open(db.find({"username":result.username}).get('image'), 'rb')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
+    op=r.json()
     if(op.get("weapon")>0.5 or op.get("nudity").get("suggestive")>0.5 or op.get("nudity").get("sexual_activity")>0.5 or op.get("alcohol")>0.5 or op.get("offensive").get("middle_finger")>0.5):
         print("FLAG")
 
