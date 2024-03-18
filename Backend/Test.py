@@ -6,7 +6,8 @@ from gridfs import GridFS
 from io import BytesIO
 import cv2
 import urllib.parse
-
+#aaa
+#aa
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
 username = urllib.parse.quote_plus('glitchynet2004')
@@ -22,12 +23,11 @@ db = mongo.db.Login_details
 def signIn():
     form=SignUpForm()
     if form.validate_on_submit():
+        print("SUCCESS")
         db.insert_one({
             "username":form.Username.data,
             "password":form.ConfirmPassword.data,
         }) 
-        
-        print("SUCCESS")
     else:
         print("NOOO")
     return render_template("Regirock.html",form=form)
@@ -66,8 +66,6 @@ def submit_form():
     # Process form data
     print(data)
     return 'Form submitted successfully!'
-
-
 
 
 if(__name__=='__main__'):
