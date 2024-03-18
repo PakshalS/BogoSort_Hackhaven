@@ -11,9 +11,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
     {/* <Signup /> */}
-    <Canvas />
+    {/* <Canvas /> */}
     {/* <App></App> */}
-    {/* <Webcam/> */}
+    <Webcam/>
     </BrowserRouter> 
   </React.StrictMode>,
 )
