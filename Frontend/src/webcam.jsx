@@ -1,9 +1,5 @@
 import React from "react";
 
-
-
-
-
 export default function Webcam() {
 let videoRef = React.useRef(null);
 let photoRef = React.useRef(null);
