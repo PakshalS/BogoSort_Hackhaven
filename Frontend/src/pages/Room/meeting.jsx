@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-
+import './meeting.css'
 
 function randomID(len) {
   let result = '';
@@ -36,9 +36,14 @@ export default function Meeting() {
  // start the call
  zp.joinRoom({
         container: element,
-        
+        onUserAvatarSetter:(userList) => {
+          userList.forEach(user => {
+              user.setUserAvatar("https://xxx.xxx.xx/xx.png")
+          })
+      }, 
         sharedLinks: [
           {
+            maxUsers: 100,
             name: 'Personal link',
             url:
              window.location.protocol + '//' + 
@@ -54,10 +59,10 @@ export default function Meeting() {
             showUserJoinAndLeave: true, // Whether to display notifications on the lower left area when participants join and leave the room. Displayed by default.
             showTextChat: true // Whether to display the latest messages on the lower left area. Displayed by default.
           },
-          whiteboardConfig: {
-            showAddImageButton: true,// It's set to false by default. To use this feature, activate the File Sharing feature, and then import the plugin. Otherwise, this prompt will occur: "Failed to add image, this feature is not supported."
-            showCreateAndCloseButton: true// Whether to display the button that is used to create/turn off the whiteboard. Displayed by default.
-          },
+          showInviteToCohostButton: true,// Whether to show the button that is used to invite the audience to co-host on the host end          showRemoveCohostButton: true,// Whether to show the button that is used to remove the audience on the host end.
+  showRequestToCohostButton:true , // Whether to show the button that is used to request to co-host on the audience end.
+          enableUserSearch: true,
+        showMyCameraToggleButton: true,
         showRemoveUserButton: true,
         showOnlyAudioUser: true
    });
@@ -67,7 +72,7 @@ export default function Meeting() {
     <div
       className="myCallContainer"
       ref={myMeeting}
-      style={{ width: '100vw', height: '100vh' }}
+      
     ></div>
   );
 }
