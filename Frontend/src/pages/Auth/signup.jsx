@@ -28,7 +28,7 @@ export default function Signup() {
     }
   }
 
-
+    console.log(action)
     return(
       <div className="container">
        <form action="POST"> 
