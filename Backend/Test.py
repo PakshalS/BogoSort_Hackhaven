@@ -9,9 +9,9 @@ import urllib.parse
 
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
-username = urllib.parse.quote_plus('glitchynet2004')
+username = urllib.parse.quote_plus('shettyaadi9')
 password = urllib.parse.quote_plus('aadi@2004')
-app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.ovxbvor.mongodb.net/video_conf'
+app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.v2ff3xl.mongodb.net/Login_details'
 mongo = PyMongo(app)
 fs = GridFS(mongo.db)
 cam_port=0
