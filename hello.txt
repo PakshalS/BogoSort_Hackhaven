@@ -1,12 +1,4 @@
 hi pakshal here
 Hi this is dikshant from bogosort participating in hackhaven
 hi pakshal also participating in hackhaven
-<<<<<<< HEAD
-<<<<<<< HEAD
-hello Aadi here
-=======
-We are fine.
->>>>>>> now
-=======
->>>>>>> a0e55687c8067bf25475bf1022c6887512f6d667
 Aadi here
