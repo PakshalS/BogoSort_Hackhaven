@@ -12,7 +12,8 @@ app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
 username = urllib.parse.quote_plus('shettyaadi9')
 password = urllib.parse.quote_plus('aadi@2004')
-app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.v2ff3xl.mongodb.net/Login_details'
+app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.v2ff3xl.mongodb.net/Login_details?connectTimeoutMS=30000'
+
 mongo = PyMongo(app)
 fs = GridFS(mongo.db)
 cam_port=0
@@ -67,6 +68,13 @@ def submit_form():
     print(data)
     return 'Form submitted successfully!'
 
+def finder(str):
+    result=db.find({"username":str})
+    document=[doc for doc in result]
+    return document
+    
+    
 
+print(finder("seema1234"))
 if(__name__=='__main__'):
     app.run(debug=True)
