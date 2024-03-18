@@ -19,10 +19,6 @@ db = mongo.db.Login_details
 def signIn():
     form=SignUpForm()
     if form.validate_on_submit():
-        db.insert_one({
-            "username":form.Username.data,
-            "password":form.ConfirmPassword.data,
-        })
         print("SUCCESS")
     else:
         print("NOOO")
@@ -47,7 +43,10 @@ def Validation():
         result,img_bytes = cv2.imencode('.jpg',image)
         
         if result:
-            db.insert_one({"Profile_Pic":img_bytes.tobytes()})
+            db.insert_one({ 
+            "username":form.Username.data,
+            "password":form.ConfirmPassword.data,
+            "Profile_Pic":img_bytes.tobytes()})
             print("Image successfully inserted")
         return redirect(url_for('signIn'))
     else:
