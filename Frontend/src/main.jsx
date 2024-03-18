@@ -4,9 +4,13 @@ import ReactDOM from 'react-dom/client'
 import Signup from './signup.jsx'
 
 import './index.css'
+import {BrowserRouter} from 'react-router-dom'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <BrowserRouter>
+    <App />
+    </BrowserRouter>
     {/* <App /> */}
     <Signup />
   </React.StrictMode>,
