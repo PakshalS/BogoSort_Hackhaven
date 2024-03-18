@@ -1,17 +1,32 @@
 from flask import *
 from SignUpForm import *
 from cv2 import imshow,imwrite,VideoCapture,imread
+from flask_pymongo import PyMongo
+from gridfs import GridFS
+from io import BytesIO
+import cv2
+import urllib.parse
 
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
-
+username = urllib.parse.quote_plus('glitchynet2004')
+password = urllib.parse.quote_plus('aadi@2004')
+app.config['MONGO_URI'] = f'mongodb+srv://{username}:{password}@cluster0.ovxbvor.mongodb.net/video_conf'
+mongo = PyMongo(app)
+fs = GridFS(mongo.db)
 cam_port=0
 cam=VideoCapture(cam_port)
 
+db = mongo.db.Login_details
 @app.route("/signup",methods=['GET','POST'])
 def signIn():
     form=SignUpForm()
     if form.validate_on_submit():
+        db.insert_one({
+            "username":form.Username.data,
+            "password":form.ConfirmPassword.data,
+        }) 
+        
         print("SUCCESS")
     else:
         print("NOOO")
@@ -21,6 +36,7 @@ def signIn():
 def login():
     form=LoginForm()
     if form.validate_on_submit():
+       
         print("YAY")
         return redirect(url_for('Validation'))
     else:
@@ -32,11 +48,27 @@ def Validation():
     result,image=cam.read()
     if result:
         cam.release()
+        result,img_bytes = cv2.imencode('.jpg',image)
+        
+        if result:
+            db.insert_one({ 
+            "Profile_Pic":img_bytes.tobytes()})
+            print("Image successfully inserted")
         return redirect(url_for('signIn'))
     else:
         cam.release()
         return "TERI MAA"
     return render_template("Validation.html")
+
+@app.route('/submit-form', methods=['POST'])
+def submit_form():
+    data = request.json
+    # Process form data
+    print(data)
+    return 'Form submitted successfully!'
+
+
+
 
 if(__name__=='__main__'):
     app.run(debug=True)
