@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
-import './style.css'
+import './style.css';
+
 export default function Signup() {
     
   const[action,setAction] = React.useState("Login");
