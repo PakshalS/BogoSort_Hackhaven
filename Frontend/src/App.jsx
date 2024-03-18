@@ -1,10 +1,11 @@
+import { useState } from 'react'
 import './App.css'
 import {Routes, Route} from 'react-router-dom'
-import HomePage from './pages/Home'
 import Meeting from './pages/Room/meeting'
-import Signup from './pages/Auth/signup'
+
 
 function App() {
+  const [count, setCount] = useState(0)
 
   return (
       <Routes>
@@ -14,4 +15,5 @@ function App() {
       
   )
 }
+
 export default App
