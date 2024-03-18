@@ -28,9 +28,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #535bf2;
-  align-items: center;
-  justify-content: center;
 }
 
 h1 {
