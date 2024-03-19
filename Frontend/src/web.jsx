@@ -67,7 +67,7 @@
 import React, { useRef, useEffect } from "react";
 import axios from "axios";
 
-export default function Webcam() {
+export default function Web() {
   const videoRef = useRef(null);
   const photoRef = useRef(null);
 
