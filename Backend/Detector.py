@@ -11,6 +11,7 @@ import requests
 import json
 import uuid
 import base64
+from bson import ObjectId
 
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
@@ -31,32 +32,35 @@ params = {
 
 @app.route('/', methods=['POST'])
 def submit_form():
-    data = request.json
+    data = request.get_json()
     result = data.get('msg')
     print(json.dumps(result,indent=2))
 
-    # decode base64 to image
-    image_data = base64.b64decode(list(result.values())[0])
+    if not result or 'image' not in result or not result['image']:
+        return jsonify({'error': 'No image provided'}), 400
+
+    # Decode base64 to image
+    image_data = base64.b64decode(result['image'])
 
     # Generate a unique filename for the image
     filename = f"{uuid.uuid4()}.png"
 
     # Save the image to GridFS
-    with fs.new_file() as f:
+    with fs.new_file(filename) as f:
         f.write(image_data)
 
     # Insert the username and GridFS file ID into the database
-    db.users.insert_one({
-        "username": result.get('username'),
-        "image_id": str(f.id)
-    })
-    print("1")
+    user_data = {"username": result.get('username')}
+    user_data["image_id"] = str(f.id)
+    db.users.insert_one(user_data)
+
+    print("Image saved and user data inserted")
 
     # Retrieve the image data from GridFS
-    with fs.get(db.users.find_one({"username": result.get('username')})["image_id"]) as f:
+    image_id = ObjectId(user_data["image_id"])
+    with fs.get(image_id) as f:
         image_data = f.read()
-    print("2")
-        
+
     # Send the image data to the API
     files = {'media': ('image.jpg', image_data, 'image/jpeg')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
