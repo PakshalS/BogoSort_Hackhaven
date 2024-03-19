@@ -51,32 +51,11 @@ export default function Webcam() {
     getUserCamera();
   });
 
-<<<<<<< HEAD
-    ctx.drawImage(video,0,0,photo.width,photo.height)
-    setVideo((prev) => !prev)
-    setImage(true)
-    setImageData(photo.toDataURL())
-
-    
-}
-   React.useEffect(() => {
-    getUserCamera()
-    
-},[videoRef,video,image]) 
-
-
-const Submit = async(e) =>{
-    e.preventDefault()
-
-    try {
-      await axios.post("http://localhost:5013/",{
-=======
   const submit = async (e) => {
     e.preventDefault();
 
     try {
       await axios.post("http://localhost:5000/", {
->>>>>>> ec950d34b1b8ec78271acf592a6ec16d69873c57
         imageData
       });
     } catch (error) {
@@ -88,19 +67,12 @@ const Submit = async(e) =>{
 
   return (
     <div>
-<<<<<<< HEAD
-        {video && <video className="container" ref={videoRef}></video>}
-       <button onClick={takeImage}>Image</button>
-       {image && <canvas ref={photoRef}></canvas>}
-       <button type="submit" onClick={Submit}>Submit</button>
-=======
       {video && <video className="container" ref={videoRef}></video>}
       <button onClick={takeImage}>Image</button>
       {image && <canvas ref={photoRef}></canvas>}
       <button type="submit" onClick={submit}>
         Submit
       </button>
->>>>>>> ec950d34b1b8ec78271acf592a6ec16d69873c57
     </div>
   );
 }
