@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ImageUploader = () => {
+function ImageUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
- 
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setSelectedFile(file);
+  //       setImagePreview(reader.result);
+  //     };
+  //     // reader.readAsDataURL(file);
+  //     const img = file.toDataURL();
+  //     console.log(img)
+  //   }
+  // };
   const handleFileChange = (event) => {
     const file = event.target.files[0]
     if (file) {
@@ -17,10 +30,26 @@ const ImageUploader = () => {
     }
   }
 
-  const handleSubmit = async () => {
-    if (!selectedFile) {
-      alert('Please select a file');
-      return;
+  const handleUpload = () => {
+    if (selectedFile) {
+      // const formData = new FormData();
+      // formData.append('image', selectedFile);
+
+      axios.post('http://localhost:5000/',  {
+       "base64" : {
+        "image":imagePreview
+       }
+      })
+      .then((response) => {
+        console.log('Image uploaded successfully:', response.data);
+        // Handle success response
+      })
+      .catch((error) => {
+        console.error('Error uploading image:', error);
+        // Handle error
+      });
+    } else {
+      console.warn('No image selected for upload.');
     }
     console.log(imagePreview)
    
@@ -30,9 +59,15 @@ const ImageUploader = () => {
     <div>
       <h2>Image Uploader</h2>
       <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleSubmit}>Upload</button>
+      {imagePreview && (
+        <div>
+          <h3>Preview:</h3>
+          <img src={imagePreview} alt="Preview" style={{ maxWidth: '300px' }} />
+        </div>
+      )}
+      <button onClick={handleUpload}>Upload</button>
     </div>
   );
-};
+}
 
 export default ImageUploader;
