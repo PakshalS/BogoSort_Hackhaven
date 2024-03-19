@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import './meeting.css'
 import Web from '../../web';
-
+import './meeting.css'
 function randomID(len) {
   let result = '';
   if (result) return result;
