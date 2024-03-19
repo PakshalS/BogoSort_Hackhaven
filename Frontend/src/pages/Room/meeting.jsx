@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import './meeting.css'
-import Webcam from '../../web';
+import Web from '../../web';
 
 function randomID(len) {
   let result = '';
@@ -60,8 +60,6 @@ export default function Meeting() {
             showUserJoinAndLeave: true, // Whether to display notifications on the lower left area when participants join and leave the room. Displayed by default.
             showTextChat: true // Whether to display the latest messages on the lower left area. Displayed by default.
           },
-          showInviteToCohostButton: true,// Whether to show the button that is used to invite the audience to co-host on the host end          showRemoveCohostButton: true,// Whether to show the button that is used to remove the audience on the host end.
-  showRequestToCohostButton:true , // Whether to show the button that is used to request to co-host on the audience end.
           enableUserSearch: true,
         showMyCameraToggleButton: true,
         showRemoveUserButton: true,
@@ -72,7 +70,7 @@ export default function Meeting() {
   return (
     <div>                          
         <div className="myCallContainer"ref={myMeeting}></div>
-        <Webcam></Webcam>
+        <Web></Web>
       </div>
   );
 }

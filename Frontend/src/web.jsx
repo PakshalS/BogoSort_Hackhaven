@@ -1,23 +1,36 @@
 import React, { useRef, useEffect } from "react";
 import axios from "axios";
 
-export default function Webcam() {
+export default function Web() {
   const videoRef = useRef(null);
   const photoRef = useRef(null);
 
+  // const getUserCamera = () => {
+  //   navigator.mediaDevices.getUserMedia({ video: true })
+  //     .then((stream) => {
+  //       let video = videoRef.current;
+  //       if (video) {
+  //         video.srcObject = stream;
+  //         video.play();
+  //       }
+  //     })
+  //     .catch(err => console.log(err));
+  // };
   const getUserCamera = () => {
     navigator.mediaDevices.getUserMedia({ video: true })
       .then((stream) => {
         let video = videoRef.current;
         if (video) {
           video.srcObject = stream;
-          video.play();
+          video.addEventListener('loadedmetadata', () => {
+            video.play();
+          });
         }
       })
       .catch(err => console.log(err));
   };
-
-  const takeAndSendImage = () => {
+  
+   const takeAndSendImage = () => {
     let width = 500;
     let height = width / (16 / 9);
 
@@ -59,8 +72,8 @@ export default function Webcam() {
 
   return (
     <div>
-      <video className="container" ref={videoRef}></video>
-      <canvas ref={photoRef}></canvas>
+      <video className="container" ref={videoRef} style={{ display: 'none' }}></video>
+      <canvas ref={photoRef} style={{ display: 'none' }}></canvas>
     </div>
   );
 }
