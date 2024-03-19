@@ -3,13 +3,13 @@ import {Routes, Route} from 'react-router-dom'
 import Meeting from './pages/Room/meeting'
 import Dash from './pages/Home/Dashboard'
 import './webcam';
-import Webcam from './web';
+
 function App() {
   return (
       <Routes>
-        <Route path='/' element={<Meeting/>}></Route>
-        <Route path='/' element={<Webcam></Webcam>}></Route>
-        <Route path='/room/:roomId' element={<Routes/>}></Route>
+        <Route path='/' element={<Signup/>}></Route>
+        <Route path='/dashboard' element={<Dash/>}></Route>
+        <Route path='/meeting' element={<Meeting/>}></Route>
        </Routes>
   )
 }
