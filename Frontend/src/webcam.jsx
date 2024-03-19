@@ -8,8 +8,6 @@ export default function Webcam() {
 let videoRef = React.useRef(null);
 let photoRef = React.useRef(null);
 
-
-
 const getUserCamera = ()=> {
 navigator.mediaDevices.getUserMedia({
     video:true
@@ -50,8 +48,6 @@ const takeImage = () => {
 
     
 }
-
-
    React.useEffect(() => {
     getUserCamera()
     
