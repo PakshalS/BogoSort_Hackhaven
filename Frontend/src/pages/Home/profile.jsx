@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function ImageUploader() {
+const ImageUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -30,9 +30,8 @@ function ImageUploader() {
       })
       .then((response) => {
         console.log('Image uploaded successfully:', response.data);
-        // Handle success response
-      })
-      .catch((error) => {
+        // Do something with the response if needed
+      } catch (error) {
         console.error('Error uploading image:', error);
         // Handle error
       });
@@ -47,15 +46,9 @@ function ImageUploader() {
     <div>
       <h2>Image Uploader</h2>
       <input type="file" accept="image/*" onChange={handleFileChange} />
-      {imagePreview && (
-        <div>
-          <h3>Preview:</h3>
-          <img src={imagePreview} alt="Preview" style={{ maxWidth: '300px' }} />
-        </div>
-      )}
-      <button onClick={handleUpload}>Upload</button>
+      <button onClick={handleSubmit}>Upload</button>
     </div>
   );
-}
+};
 
 export default ImageUploader;
