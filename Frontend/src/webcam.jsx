@@ -54,27 +54,11 @@ const takeImage = () => {
 
     
 }
-const Videotoggle = () => {
-    setVideo((prev) => true)
-    
-    let photo = photoRef.current
-    
-    let ctx = photo.getContext('2d')
-    
-    ctx.clearRect(0,0,photo.width,photo.height)
-    setImage((prev)=> false)
-}
 
-const clearImage = () => {
-    let photo = photoRef.current
-
-    let ctx = photo.getContext('2d')
-
-    ctx.clearRect(0,0,photo.width,photo.height)
-}
 
    React.useEffect(() => {
     getUserCamera()
+    
 },[videoRef,video,image])
 
 
@@ -96,7 +80,6 @@ const submit = async(e) =>{
         {video && <video className="container" ref={videoRef}></video>}
        <button onClick={takeImage}>Image</button>
        {image && <canvas ref={photoRef}></canvas>}
-       <button onClick={Videotoggle}>Retake</button>
        <button type="submit" onClick={submit}>Submit</button>
     
     </div>
