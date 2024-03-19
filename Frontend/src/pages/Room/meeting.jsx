@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import './meeting.css'
 import Web from '../../web';
-
+import Webcam from '../../webcam';
+import './meeting.css'
+import YourComponent from './response';
 function randomID(len) {
   let result = '';
   if (result) return result;
@@ -68,9 +69,11 @@ export default function Meeting() {
   };
 
   return (
-    <div>                          
+    <div className='space'>                          
         <div className="myCallContainer"ref={myMeeting}></div>
         <Web></Web>
+        <Webcam/>
+        <YourComponent></YourComponent>
       </div>
   );
 }

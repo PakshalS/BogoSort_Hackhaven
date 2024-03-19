@@ -55,7 +55,7 @@ export default function Webcam() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/",{
+      await axios.post("http://localhost:5025/",{
         "msg" : {
           "DataType":"Image",
           "image":imageData

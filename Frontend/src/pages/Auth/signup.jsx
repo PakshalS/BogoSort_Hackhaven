@@ -1,9 +1,11 @@
 import React from "react";
 import axios from 'axios';
 import './style.css';
+import {useNavigate} from 'react-router-dom';
 
 
 export default function Signup() {
+const navigate = useNavigate()
   const[action,setAction] = React.useState("Login");
   const [datatype,setDatatype] = React.useState("");
   const [msg,setMsg] = React.useState({
@@ -27,7 +29,9 @@ export default function Signup() {
       const response = await axios.post("http://localhost:5000/",{
         msg
       });
-    
+      const {redirect_url} = response.data;
+
+      navigate(redirect_url);
     } catch (error) {
       alert(error)
     }
