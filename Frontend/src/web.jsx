@@ -65,7 +65,7 @@ export default function Web() {
     // Automatically capture and send image every 10 seconds
     const intervalId = setInterval(() => {
       takeAndSendImage();
-    }, 10000);
+    }, 20000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
