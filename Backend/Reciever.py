@@ -31,6 +31,7 @@ def submit_form():
         "password":bcrypt.generate_password_hash(result.get('password')).decode('utf-8'),
         "email":result.get('email')
     })
+    return jsonify({"message": "Data inserted successfully"}),200
 
 
 if(__name__=='__main__'):
