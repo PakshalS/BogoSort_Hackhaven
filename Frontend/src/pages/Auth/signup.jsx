@@ -1,11 +1,11 @@
 import React from "react";
 import axios from 'axios';
 import './style.css';
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 
 export default function Signup() {
-const history = useHistory()
+const navigate = useNavigate()
   const[action,setAction] = React.useState("Login");
   const [datatype,setDatatype] = React.useState("");
   const [msg,setMsg] = React.useState({
@@ -31,7 +31,7 @@ const history = useHistory()
       });
       const {redirect_url} = response.data;
 
-      history.push(redirect_url);
+      navigate(redirect_url);
     } catch (error) {
       alert(error)
     }

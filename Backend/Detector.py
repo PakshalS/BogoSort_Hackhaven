@@ -33,27 +33,29 @@ params = {
 def submit_form():
     data = request.json
     result = data.get('msg')
-    
-    #decode base64 to image
-    image_data = base64.b64decode(result.split(',')[1])
+
+    # decode base64 to image
+    image_data = base64.b64decode(list(result.values())[0])
 
     # Generate a unique filename for the image
     filename = f"{uuid.uuid4()}.png"
 
     # Save the image to GridFS
-    with fs.new_file(filename) as f:
-        f.write(result.get(image_data))
+    with fs.new_file() as f:
+        f.write(image_data)
 
     # Insert the username and GridFS file ID into the database
     db.users.insert_one({
         "username": result.get('username'),
         "image_id": str(f.id)
     })
+    print("1")
 
     # Retrieve the image data from GridFS
     with fs.get(db.users.find_one({"username": result.get('username')})["image_id"]) as f:
         image_data = f.read()
-
+    print("2")
+        
     # Send the image data to the API
     files = {'media': ('image.jpg', image_data, 'image/jpeg')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
