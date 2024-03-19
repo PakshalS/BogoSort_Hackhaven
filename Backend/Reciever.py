@@ -25,7 +25,7 @@ db = mongo.db.Login_details
 def finder(str):
     result=db.find({"email":str})
     document=[doc for doc in result]
-    print(document[1])
+    print(document[0])
     return document
 
 @app.route('/', methods=['POST','GET'])
