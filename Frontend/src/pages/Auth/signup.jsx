@@ -4,8 +4,8 @@ import './style.css';
 import Webcam from "../../webcam";
 
 export default function Signup() {
-
   const[action,setAction] = React.useState("Login");
+  const [datatype,setDatatype] = React.useState("");
   const [msg,setMsg] = React.useState({
     username: "",
     email: "",
@@ -13,12 +13,14 @@ export default function Signup() {
   });
 
   const handleInput = (event) => {
-    setMsg({...msg,[event.target.name]:  event.target.value})
+    setMsg({...msg,[event.target.name]:  event.target.value,datatype: action === "Login" ? "" : action})
   }
 
+  React.useEffect(() => {
+    setDatatype(action)
+  })
   const submit = async(e) =>{
-    // Submit();
-    console.log(msg);
+    console.log(msg,datatype);
     e.preventDefault()
 
     try {
@@ -29,7 +31,6 @@ export default function Signup() {
       alert(error)
     }
   }
-
    
     return(
       <div className="container">

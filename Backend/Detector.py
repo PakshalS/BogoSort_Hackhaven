@@ -1,5 +1,5 @@
 from flask import *
-from SignUpForm import *
+# from SignUpForm import *
 from cv2 import imshow,imwrite,VideoCapture,imread
 from flask_pymongo import PyMongo
 from gridfs import GridFS
