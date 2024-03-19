@@ -1,58 +1,43 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function ImageUploader() {
+const ImageUploader = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedFile(file);
-        setImagePreview(reader.result);
-      };
-      reader.toDataURL(file);
-    }
+    setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = () => {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append('image', selectedFile);
-
-      axios.post('http://localhost:5000/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      .then((response) => {
-        console.log('Image uploaded successfully:', response);
-        // Handle success response
-      })
-      .catch((error) => {
-        console.error('Error uploading image:', error);
-        // Handle error
-      });
-    } else {
-      console.warn('No image selected for upload.');
+  const handleSubmit = async () => {
+    if (!selectedFile) {
+      alert('Please select a file');
+      return;
     }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedFile);
+    reader.onload = async () => {
+      const base64Image = reader.result.split(',')[1];
+      try {
+        const response = await axios.post('YOUR_API_ENDPOINT_HERE', {
+          image: base64Image
+        });
+        console.log('Image uploaded successfully:', response.data);
+        // Do something with the response if needed
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        // Handle error appropriately
+      }
+    };
   };
 
   return (
     <div>
       <h2>Image Uploader</h2>
       <input type="file" accept="image/*" onChange={handleFileChange} />
-      {imagePreview && (
-        <div>
-          <h3>Preview:</h3>
-          <img src={imagePreview} alt="Preview" style={{ maxWidth: '300px' }} />
-        </div>
-      )}
-      <button onClick={handleUpload}>Upload</button>
+      <button onClick={handleSubmit}>Upload</button>
     </div>
   );
-}
+};
 
 export default ImageUploader;
