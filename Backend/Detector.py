@@ -33,6 +33,7 @@ params = {
 def submit_form():
     data = request.json
     result = data.get('msg')
+    print(json.dumps(result,indent=2))
 
     # decode base64 to image
     image_data = base64.b64decode(list(result.values())[0])
