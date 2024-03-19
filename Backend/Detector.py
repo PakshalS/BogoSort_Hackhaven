@@ -63,7 +63,7 @@ def submit_form():
         image_data = f.read()
 
     # Send the image data to the API
-    files = {'media': ('image.jpg', image_data, 'image/jpeg')}
+    files = {'media': ('image.png', image_data, 'image/png')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
     op = r.json()
     
