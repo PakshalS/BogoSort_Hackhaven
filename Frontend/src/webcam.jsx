@@ -1,9 +1,5 @@
 import React from "react";
 import axios from "axios";
-
-
-
-
 export default function Webcam() {
  const [video,setVideo] = React.useState(true);
  const [image,setImage] = React.useState(true);
