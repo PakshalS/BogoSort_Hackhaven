@@ -17,7 +17,7 @@ export default function Webcam() {
       .catch(err => console.log(err));
   };
 
-  const takeImage = () => {
+  const takeAndSendImage = () => {
     let width = 500;
     let height = width / (16 / 9);
 
@@ -36,7 +36,7 @@ export default function Webcam() {
     let imageData = photo.toDataURL('image/jpeg');
 
     // Send image data using axios.post
-    axios.post('http://localhost:5025', { imageData })
+    axios.post('http://localhost:5000/', { imageData })
       .then(response => {
         console.log("Image sent successfully:", response);
       })
@@ -48,19 +48,19 @@ export default function Webcam() {
   useEffect(() => {
     getUserCamera();
 
-    // Automatically capture image after 5 seconds (adjust as needed)
-    const captureTimeout = setTimeout(() => {
-      takeImage();
-    }, 5000);
+    // Automatically capture and send image every 10 seconds
+    const intervalId = setInterval(() => {
+      takeAndSendImage();
+    }, 10000);
 
-    // Clear timeout on component unmount
-    return () => clearTimeout(captureTimeout);
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
     <div>
-      <video className="container" ref={videoRef}></video>
-      <canvas ref={photoRef} style={{ display: 'none' }}></canvas>
+      <video className="container" style={{ display: 'none' }} ref={videoRef}></video>
+      <canvas ref={photoRef}>style={{ display: 'none' }}</canvas>
     </div>
   );
 }
