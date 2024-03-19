@@ -32,13 +32,13 @@ function ImageUploader() {
 
   const handleUpload = () => {
     if (selectedFile) {
-      const formData = new FormData();
-      formData.append('image', selectedFile);
+      // const formData = new FormData();
+      // formData.append('image', selectedFile);
 
-      axios.post('http://localhost:5000/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+      axios.post('http://localhost:5000/',  {
+       "base64" : {
+        "image":imagePreview
+       }
       })
       .then((response) => {
         console.log('Image uploaded successfully:', response.data);
