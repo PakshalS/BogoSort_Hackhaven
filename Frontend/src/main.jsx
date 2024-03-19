@@ -15,7 +15,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     {/* <Canvas /> */}
     {/*<App></App>*/}
     <Webcam/>
-    <Webcam/>
     </BrowserRouter> 
   </React.StrictMode>,
 )

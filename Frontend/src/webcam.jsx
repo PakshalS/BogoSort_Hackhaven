@@ -49,7 +49,7 @@ export default function Webcam() {
 
   React.useEffect(() => {
     getUserCamera();
-  }, []);
+  });
 
   const submit = async (e) => {
     e.preventDefault();
