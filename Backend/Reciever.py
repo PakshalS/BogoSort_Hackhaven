@@ -1,4 +1,5 @@
 from flask import *
+from SignUpForm import *
 from cv2 import imshow,imwrite,VideoCapture,imread
 from flask_pymongo import PyMongo
 from gridfs import GridFS
@@ -40,18 +41,18 @@ def submit_form():
             "email":result.get('email')
         })
         db.create_index([("username", 1)], unique=True)
-        return jsonify(redirect_url="/"), 200
+        return jsonify({"redirect_url": "http://localhost:3000"}), 200
     else:
         user=result.get('email')
         print("YAY")
         doc=finder(user)
         if bcrypt.check_password_hash(doc[0].get('password'), result.get('password')):
             print("CORRECT PASSWORD")
-            return jsonify(redirect_url="/dashboard"), 200
+            return jsonify({"redirect_url": "http://localhost:3000/dashboard"}), 200
 
         else:
             print("WRONG PASSWORD")
-            return jsonify(redirect_url= "/"), 400
+            return jsonify({"redirect_url": "http://localhost:3000"}), 400
 
 
 

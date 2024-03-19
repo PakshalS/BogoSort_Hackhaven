@@ -33,16 +33,16 @@ params = {
 def submit_form():
     data = request.json
     result = data.get('msg')
-    
-    #decode base64 to image
-    image_data = base64.b64decode(result.split(',')[1])
+
+    # decode base64 to image
+    image_data = base64.b64decode(list(result.values())[0])
 
     # Generate a unique filename for the image
     filename = f"{uuid.uuid4()}.png"
 
     # Save the image to GridFS
-    with fs.new_file(filename) as f:
-        f.write(result.get(image_data))
+    with fs.new_file() as f:
+        f.write(image_data)
 
     # Insert the username and GridFS file ID into the database
     db.users.insert_one({
