@@ -28,7 +28,7 @@ function ImageUploader() {
         }
       })
       .then((response) => {
-        console.log('Image uploaded successfully:', response.data);
+        console.log('Image uploaded successfully:', response);
         // Handle success response
       })
       .catch((error) => {
