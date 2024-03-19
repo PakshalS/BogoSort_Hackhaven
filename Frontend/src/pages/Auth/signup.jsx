@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import './style.css';
+import Webcam from "../../webcam";
 
 export default function Signup() {
 
@@ -16,6 +17,7 @@ export default function Signup() {
   }
 
   const submit = async(e) =>{
+    // Submit();
     console.log(msg);
     e.preventDefault()
 
@@ -31,6 +33,7 @@ export default function Signup() {
    
     return(
       <div className="container">
+       
        <form action="POST"> 
          <div className="header">
           <h2 className="header-text">{action}</h2>
