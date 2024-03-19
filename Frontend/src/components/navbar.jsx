@@ -5,7 +5,7 @@ import './navstyle.css';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
+  const toggleMenu = () => { 
     setIsOpen(!isOpen);
   };
 
@@ -20,12 +20,12 @@ const Navbar = () => {
         </div>
         <ul className={isOpen ? 'nav-menu active' : 'nav-menu'}>
           <li className="nav-item">
-            <Link to="/settings" className="nav-links" onClick={toggleMenu}>
+            <Link to="/" className="nav-links" onClick={toggleMenu}>
               Settings
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/logout" className="nav-links" onClick={toggleMenu}>
+            <Link to="/" className="nav-links" onClick={toggleMenu}>
               Logout
             </Link>
           </li>
