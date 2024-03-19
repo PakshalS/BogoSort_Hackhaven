@@ -9,7 +9,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Meeting/>}></Route>
         {/* <Route path='/' element={<Webcam></Webcam>}></Route> */}
-        <Route path='/room/:roomId' element={<Routes/>}></Route>
+        {/* <Route path='/room/:roomId' element={<Routes/>}></Route> */}
        </Routes>
   )
 }
