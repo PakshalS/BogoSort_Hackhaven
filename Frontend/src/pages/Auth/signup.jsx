@@ -7,6 +7,7 @@ import {useHistory} from 'react-router-dom';
 export default function Signup() {
 const history = useHistory()
   const[action,setAction] = React.useState("Login");
+  const [datatype,setDatatype] = React.useState("");
   const [msg,setMsg] = React.useState({
     username: "",
     email: "",
@@ -14,9 +15,12 @@ const history = useHistory()
   });
 
   const handleInput = (event) => {
-    setMsg({...msg,[event.target.name]:  event.target.value})
+    setMsg({...msg,[event.target.name]:  event.target.value,datatype: action === "Login" ? "" : action})
   }
 
+  React.useEffect(() => {
+    setDatatype(action)
+  })
   const submit = async(e) =>{
     console.log(msg);
     e.preventDefault()
@@ -32,7 +36,6 @@ const history = useHistory()
       alert(error)
     }
   }
-
    
     return(
       <div className="container">
