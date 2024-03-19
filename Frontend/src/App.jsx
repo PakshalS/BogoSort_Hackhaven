@@ -2,8 +2,11 @@ import './App.css'
 import {Routes, Route} from 'react-router-dom'
 import Meeting from './pages/Room/meeting'
 import './webcam';
+import Signup from './pages/Auth/signup';
+import Dash from './pages/Home/Dashboard';
 
-function App() {
+
+export default function App() {
   return (
       <Routes>
         <Route path='/' element={<Signup/>}></Route>
@@ -13,4 +16,3 @@ function App() {
   )
 }
 
-export default App
