@@ -1,10 +1,7 @@
 from flask import *
-from SignUpForm import *
-from cv2 import imshow,imwrite,VideoCapture,imread
 from flask_pymongo import PyMongo
 from gridfs import GridFS
 from io import BytesIO
-import cv2
 import urllib.parse
 from flask_cors import CORS,cross_origin
 from flask_bcrypt import Bcrypt
@@ -23,9 +20,9 @@ db = mongo.db.Login_details
 @app.route('/', methods=['POST'])
 def submit_form():
     data = request.json
-    #print(data)
+    print(data)
     result=data.get('msg')
-    #print(result)
+    print(result)
     db.insert_one({
         "username":result.get('username'),
         "password":bcrypt.generate_password_hash(result.get('password')).decode('utf-8'),
