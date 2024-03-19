@@ -51,14 +51,14 @@ const takeImage = () => {
    React.useEffect(() => {
     getUserCamera()
     
-},[videoRef,video,image])
+},[videoRef,video,image]) 
 
 
-const submit = async(e) =>{
+const Submit = async(e) =>{
     e.preventDefault()
 
     try {
-      await axios.post("http://localhost:5000/",{
+      await axios.post("http://localhost:5013/",{
         imageData
       })
     } catch (error) {
@@ -72,8 +72,7 @@ const submit = async(e) =>{
         {video && <video className="container" ref={videoRef}></video>}
        <button onClick={takeImage}>Image</button>
        {image && <canvas ref={photoRef}></canvas>}
-       <button type="submit" onClick={submit}>Submit</button>
-    
+       <button type="submit" onClick={Submit}>Submit</button>
     </div>
 )
 }
