@@ -61,11 +61,15 @@ def submit_form():
     image_id = ObjectId(user_data["image_id"])
     with fs.get(file_id) as f:
         image_data = f.read()
+    
+    print("1")
 
     # Send the image data to the API
     files = {'media': ('image.png', image_data, 'image/png')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
     op = r.json()
+    
+    print("2")
     
     if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
         return jsonify({"message": "No Profanity Detected"}), 200
