@@ -49,11 +49,13 @@ def submit_form():
         "username": result.get('username'),
         "image_id": str(f.id)
     })
+    print("1")
 
     # Retrieve the image data from GridFS
     with fs.get(db.users.find_one({"username": result.get('username')})["image_id"]) as f:
         image_data = f.read()
-
+    print("2")
+        
     # Send the image data to the API
     files = {'media': ('image.jpg', image_data, 'image/jpeg')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
