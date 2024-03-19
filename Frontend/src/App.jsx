@@ -1,7 +1,8 @@
 import './App.css'
 import {Routes, Route} from 'react-router-dom'
 import Meeting from './pages/Room/meeting'
-import './webcam';
+import Dash from './pages/Home/Dashboard'
+
 import Signup from './pages/Auth/signup';
 
 function App() {
