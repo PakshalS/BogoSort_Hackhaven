@@ -1,9 +1,11 @@
 import React from "react";
 import axios from 'axios';
 import './style.css';
-import Webcam from "../../webcam";
+import {useNavigate} from 'react-router-dom';
+
 
 export default function Signup() {
+const navigate = useNavigate()
   const[action,setAction] = React.useState("Login");
   const [datatype,setDatatype] = React.useState("");
   const [msg,setMsg] = React.useState({
@@ -20,13 +22,16 @@ export default function Signup() {
     setDatatype(action)
   })
   const submit = async(e) =>{
-    console.log(msg,datatype);
+    console.log(msg);
     e.preventDefault()
 
     try {
-      await axios.post("http://localhost:5000/",{
+      const response = await axios.post("http://localhost:5000/",{
         msg
-      })
+      });
+      const {redirect_url} = response.data;
+
+      navigate(redirect_url);
     } catch (error) {
       alert(error)
     }
@@ -34,7 +39,6 @@ export default function Signup() {
    
     return(
       <div className="container">
-       
        <form action="POST"> 
          <div className="header">
           <h2 className="header-text">{action}</h2>
