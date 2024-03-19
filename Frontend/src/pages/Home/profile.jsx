@@ -5,17 +5,18 @@ function ImageUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
 
+ 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setSelectedFile(file);
-        setImagePreview(reader.result);
-      };
-      reader.toDataURL(file);
+        setSelectedFile(file)
+        setImagePreview(reader.result)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   const handleUpload = () => {
     if (selectedFile) {
@@ -38,6 +39,8 @@ function ImageUploader() {
     } else {
       console.warn('No image selected for upload.');
     }
+    console.log(imagePreview)
+   
   };
 
   return (
