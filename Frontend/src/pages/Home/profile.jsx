@@ -13,7 +13,7 @@ function ImageUploader() {
         setSelectedFile(file);
         setImagePreview(reader.result);
       };
-      reader.readAsDataURL(file);
+      reader.toDataURL(file);
     }
   };
 
@@ -22,7 +22,7 @@ function ImageUploader() {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      axios.post('http://localhost:5025/', formData, {
+      axios.post('http://localhost:5000/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

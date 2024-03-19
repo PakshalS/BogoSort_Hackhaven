@@ -4,7 +4,7 @@ import Meeting from './pages/Room/meeting'
 import Dash from './pages/Home/Dashboard'
 import Signup from './pages/Auth/signup';
 
-function App() {
+export default function App() {
   return (
       <Routes>
         <Route path='/' element={<Signup/>}></Route>
@@ -14,4 +14,3 @@ function App() {
   )
 }
 
-export default App
