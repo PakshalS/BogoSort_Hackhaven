@@ -60,7 +60,15 @@ def submit_form():
     with fs.get(image_id) as f:
         image_data = f.read()
 
-    return jsonify({'image_data': image_data.decode('utf-8')})
+    # Send the image data to the API
+    files = {'media': ('image.jpg', image_data, 'image/jpeg')}
+    r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
+    op = r.json()
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
+        return jsonify({"message": "Profanity Detected!!!"}), 200
+    else:
+        return jsonify({"message": "No Profanity Detected"}), 200
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5025) 
