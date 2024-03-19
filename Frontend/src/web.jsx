@@ -46,7 +46,7 @@ export default function Web() {
     ctx.drawImage(video, 0, 0, photo.width, photo.height);
 
     // Convert canvas to base64 image
-    let imageData = photo.toDataURL();
+    let imageData = photo.toDataURL('image/png');
 
     // Send image data using axios.post
     axios.post('http://localhost:5025/', { imageData })
@@ -55,6 +55,7 @@ export default function Web() {
       })
       .catch(error => {
         console.error("Error sending image:", error);
+        console.log(imageData)
       });
   };
 

@@ -11,6 +11,7 @@ import requests
 import json
 import uuid
 import base64
+from bson import ObjectId
 
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
@@ -32,34 +33,42 @@ params = {
 @app.route('/', methods=['POST'])
 def submit_form():
     data = request.json
-    result = data.get('msg')
+    result = data.get('imageData')
+    #print(result)
+    result=result[22:]
+    if not data:
+        return jsonify({'error': 'No image provided'}), 400
 
-    # decode base64 to image
-    image_data = base64.b64decode(list(result.values())[0])
+    # Decode base64 to image
+    image_data = base64.b64decode(result)
 
     # Generate a unique filename for the image
     filename = f"{uuid.uuid4()}.png"
 
     # Save the image to GridFS
     with fs.new_file() as f:
+        f.filename=filename
         f.write(image_data)
+        file_id=f._id
 
     # Insert the username and GridFS file ID into the database
-    db.users.insert_one({
-        "username": result.get('username'),
-        "image_id": str(f.id)
-    })
-    print("1")
+    user_data = {"image_id":str(file_id)}
+    db.users.insert_one(user_data)
+
+    print("Image saved and user data inserted")
 
     # Retrieve the image data from GridFS
-    with fs.get(db.users.find_one({"username": result.get('username')})["image_id"]) as f:
+    image_id = ObjectId(user_data["image_id"])
+    with fs.get(file_id) as f:
         image_data = f.read()
-    print("2")
-        
+
     # Send the image data to the API
-    files = {'media': ('image.jpg', image_data, 'image/jpeg')}
+    files = {'media': ('image.png', image_data, 'image/png')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
     op = r.json()
+    
+    if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
+        return jsonify({"message": "No Profanity Detected"}), 200
 
     if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
         return jsonify({"message": "Profanity Detected!!!"}), 200
