@@ -32,39 +32,43 @@ params = {
 
 @app.route('/', methods=['POST'])
 def submit_form():
-    data = request.get_json()
-    result = data.get('msg')
-    print(json.dumps(result,indent=2))
-
-    if not result or 'image' not in result or not result['image']:
+    data = request.json
+    result = data.get('imageData')
+    #print(result)
+    result=result[22:]
+    if not data:
         return jsonify({'error': 'No image provided'}), 400
 
     # Decode base64 to image
-    image_data = base64.b64decode(result['image'])
+    image_data = base64.b64decode(result)
 
     # Generate a unique filename for the image
     filename = f"{uuid.uuid4()}.png"
 
     # Save the image to GridFS
-    with fs.new_file(filename) as f:
+    with fs.new_file() as f:
+        f.filename=filename
         f.write(image_data)
+        file_id=f._id
 
     # Insert the username and GridFS file ID into the database
-    user_data = {"username": result.get('username')}
-    user_data["image_id"] = str(f.id)
+    user_data = {"image_id":str(file_id)}
     db.users.insert_one(user_data)
 
     print("Image saved and user data inserted")
 
     # Retrieve the image data from GridFS
     image_id = ObjectId(user_data["image_id"])
-    with fs.get(image_id) as f:
+    with fs.get(file_id) as f:
         image_data = f.read()
 
     # Send the image data to the API
     files = {'media': ('image.jpg', image_data, 'image/jpeg')}
     r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
     op = r.json()
+    
+    if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
+        return jsonify({"message": "No Profanity Detected"}), 200
 
     if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
         return jsonify({"message": "Profanity Detected!!!"}), 200
