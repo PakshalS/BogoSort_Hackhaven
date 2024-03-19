@@ -6,9 +6,13 @@ from gridfs import GridFS
 from io import BytesIO
 import cv2
 import urllib.parse
+from flask_cors import CORS,cross_origin
+from flask_bcrypt import Bcrypt
 #aaa
 #aa
 app=Flask(__name__)
+CORS(app)
+bcrypt=Bcrypt(app)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
 username = urllib.parse.quote_plus('shettyaadi9')
 password = urllib.parse.quote_plus('aadi@2004')
@@ -61,7 +65,7 @@ def Validation():
         return "TERI MAA"
     return render_template("Validation.html")
 
-@app.route('/submit-form', methods=['POST'])
+@app.route('/', methods=['POST'])
 def submit_form():
     data = request.json
     # Process form data
@@ -75,6 +79,5 @@ def finder(str):
     
     
 
-print(finder("seema1234"))
 if(__name__=='__main__'):
-    app.run(debug=True)
+    app.run(debug=True,port=5000)
