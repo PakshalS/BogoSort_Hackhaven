@@ -3,6 +3,7 @@ import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import Web from '../../web';
 import Webcam from '../../webcam';
 import './meeting.css'
+import YourComponent from './response';
 function randomID(len) {
   let result = '';
   if (result) return result;
@@ -72,6 +73,7 @@ export default function Meeting() {
         <div className="myCallContainer"ref={myMeeting}></div>
         <Web></Web>
         <Webcam/>
+        <YourComponent></YourComponent>
       </div>
   );
 }
