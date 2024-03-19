@@ -1,79 +1,78 @@
 import React from "react";
 import axios from "axios";
+
 export default function Webcam() {
- const [video,setVideo] = React.useState(true);
- const [image,setImage] = React.useState(true);
- const [imageData, setImageData] = React.useState();
+  const [video, setVideo] = React.useState(true);
+  const [image, setImage] = React.useState(true);
+  const [imageData, setImageData] = React.useState();
 
-let videoRef = React.useRef(null);
-let photoRef = React.useRef(null);
+  const videoRef = React.useRef(null);
+  const photoRef = React.useRef(null);
 
-const getUserCamera = ()=> {
-navigator.mediaDevices.getUserMedia({
-    video:true
-})
-.then((stream) => {
-    let video = videoRef.current
+  const getUserCamera = () => {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true
+      })
+      .then((stream) => {
+        const videoElement = videoRef.current;
+        if (videoElement) {
+          videoElement.srcObject = stream;
+          if (videoElement.paused && !videoElement.ended) {
+            videoElement.play();
+          }
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
-    video.srcObject = stream
-
-    if (video.paused && !video.ended) {
-        video.play()
-      }
-})
-.catch(err => console.log(err))
-}
-const takeImage = () => {
+  const takeImage = () => {
     if (!photoRef.current) {
-        return;
-      }
+      return;
+    }
 
-    let width = 500
+    const width = 500;
+    const height = width / (16 / 9);
+    const photo = photoRef.current;
+    const video = videoRef.current;
 
-    let height = width/(16 / 9)
+    photo.width = width;
+    photo.height = height;
 
-    let photo = photoRef.current
-    let video = videoRef.current
-    
-    photo.width = width
+    const ctx = photo.getContext("2d");
+    ctx.drawImage(video, 0, 0, photo.width, photo.height);
 
-    photo.height = height
+    setVideo((prev) => !prev);
+    setImage(true);
+    setImageData(photo.toDataURL());
+  };
 
-    let ctx = photo.getContext('2d')
+  React.useEffect(() => {
+    getUserCamera();
+  });
 
-    ctx.drawImage(video,0,0,photo.width,photo.height)
-    setVideo((prev) => !prev)
-    setImage(true)
-    setImageData(photo.toDataURL())
-
-    
-}
-   React.useEffect(() => {
-    getUserCamera()
-    
-},[videoRef,video,image])
-
-
-const submit = async(e) =>{
-    e.preventDefault()
+  const submit = async (e) => {
+    e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/",{
+      await axios.post("http://localhost:5000/", {
         imageData
-      })
+      });
     } catch (error) {
-      alert(error)
+      alert(error);
     }
-  }
+  };
 
+  console.log(imageData);
 
-    return(
+  return (
     <div>
-        {video && <video className="container" ref={videoRef}></video>}
-       <button onClick={takeImage}>Image</button>
-       {image && <canvas ref={photoRef}></canvas>}
-       <button type="submit" onClick={submit}>Submit</button>
-    
+      {video && <video className="container" ref={videoRef}></video>}
+      <button onClick={takeImage}>Image</button>
+      {image && <canvas ref={photoRef}></canvas>}
+      <button type="submit" onClick={submit}>
+        Submit
+      </button>
     </div>
-)
+  );
 }
