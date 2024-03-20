@@ -86,7 +86,4 @@ function getEmailFromSession() {
   return null;
 }
 
-// Call the function to get and print the email
-
-
 export default ImageUploader;

@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import Dash from "../Home/Dashboard";
 
 
+
 export default function Signup() {
 const navigate = useNavigate()
   const[action,setAction] = React.useState("Login");
@@ -38,7 +39,7 @@ const navigate = useNavigate()
     }
     const email = getEmailFromSession();
   }
-   
+
     return(
       <div className="container">
        <form action="POST"> 
