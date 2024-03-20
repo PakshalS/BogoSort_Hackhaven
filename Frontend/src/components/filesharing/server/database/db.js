@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import File from './File'; // Import the File model
 
 dotenv.config();
 
@@ -11,6 +12,16 @@ const DBConnection = async () => {
     try {
         await mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
         console.log('Database connected successfully');
+
+        // Insert a new File instance
+        const newFile = new File({
+            path: 'path/to/file',
+            name: 'file.txt',
+            downloadCount: 0
+        });
+
+        await newFile.save();
+        console.log('File saved successfully', newFile);
     } catch (error) {
         console.log('Error while connecting with the database ', error.message);
     }
