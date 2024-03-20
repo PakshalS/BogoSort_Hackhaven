@@ -33,50 +33,94 @@ params = {
 @app.route('/', methods=['POST'])
 def submit_form():
     data = request.json
-    result = data.get('imageData')
-    #print(result)
-    result=result[22:]
-    if not data:
-        return jsonify({'error': 'No image provided'}), 400
+    try:
+        result = data.get('msg').get('image')
+        #print(data)
+        result=result[22:]
+        #print(result)
+        if not data:
+            return jsonify({'error': 'No image provided'}), 400
 
-    # Decode base64 to image
-    image_data = base64.b64decode(result)
+        # Decode base64 to image
+        image_data = base64.b64decode(result)
 
-    # Generate a unique filename for the image
-    filename = f"{uuid.uuid4()}.png"
+        # Generate a unique filename for the image
+        filename = f"{uuid.uuid4()}.png"
 
-    # Save the image to GridFS
-    with fs.new_file() as f:
-        f.filename=filename
-        f.write(image_data)
-        file_id=f._id
+        # Save the image to GridFS
+        with fs.new_file() as f:
+            f.filename=filename
+            f.write(image_data)
+            file_id=f._id
 
-    # Insert the username and GridFS file ID into the database
-    user_data = {"image_id":str(file_id)}
-    db.users.insert_one(user_data)
+        # Insert the username and GridFS file ID into the database
+        user_data = {"image_id":str(file_id)}
+        db.users.insert_one(user_data)
 
-    print("Image saved and user data inserted")
+        print("Image saved and user data inserted")
 
-    # Retrieve the image data from GridFS
-    image_id = ObjectId(user_data["image_id"])
-    with fs.get(file_id) as f:
-        image_data = f.read()
+        # Retrieve the image data from GridFS
+        image_id = ObjectId(user_data["image_id"])
+        with fs.get(file_id) as f:
+            image_data = f.read()
     
-    print("1")
+        print("1")
 
-    # Send the image data to the API
-    files = {'media': ('image.png', image_data, 'image/png')}
-    r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
-    op = r.json()
-    print(op)
+        # Send the image data to the API
+        files = {'media': ('image.png', image_data, 'image/png')}
+        r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
+        op = r.json()
+        print(op)
     
-    if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
-        return jsonify({"message": "No Profanity Detected"}), 200
+        if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
+            return jsonify(redirect_url="/meeting"), 200
 
-    if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
-        return jsonify({"message": "Profanity Detected!!!"}), 200
-    else:
-        return jsonify({"message": "No Profanity Detected"}), 200
+        if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
+            return jsonify(redirect_url="/"), 200
+        else:
+            return jsonify(redirect_url="/meeting"), 200
+    except AttributeError: #FOR MEETING
+        result=data.get('imageData')
+        result=result[22:]
+        print("ehllo")
+        # Decode base64 to image
+        image_data = base64.b64decode(result)
+
+        # Generate a unique filename for the image
+        filename = f"{uuid.uuid4()}.png"
+
+        # Save the image to GridFS
+        with fs.new_file() as f:
+            f.filename=filename
+            f.write(image_data)
+            file_id=f._id
+
+        # Insert the username and GridFS file ID into the database
+        user_data = {"image_id":str(file_id)}
+        db.users.insert_one(user_data)
+
+        print("Image saved and user data inserted")
+
+        # Retrieve the image data from GridFS
+        image_id = ObjectId(user_data["image_id"])
+        with fs.get(file_id) as f:
+            image_data = f.read()
+    
+        print("1")
+
+        # Send the image data to the API
+        files = {'media': ('image.png', image_data, 'image/png')}
+        r = requests.post('https://api.sightengine.com/1.0/check.json', files=files, data=params)
+        op = r.json()
+        print(op)
+    
+        if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
+            return jsonify({"message": "No Profanity Detected"}), 200
+
+        if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
+            return jsonify({"message": "Profanity Detected!!!"}), 200
+        else:
+            return jsonify({"message": "No Profanity Detected"}), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=5025) 
