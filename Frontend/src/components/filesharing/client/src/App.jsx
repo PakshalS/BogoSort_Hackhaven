@@ -1,48 +1,35 @@
-import { useState, useEffect, useRef } from 'react';
-import './App.css';
-import { uploadFile } from './service/api.js';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-export default function Appclient() {
-  const [file, setFile] = useState('');
-  const [result, setResult] = useState('');
-
-  const fileInputRef = useRef();
-
-  const url = 'https://i.pinimg.com/originals/16/46/24/1646243661201a0892cc4b1a64fcbacf.jpg';
-
-  useEffect(() => {
-    const getImage = async () => {
-      if (file) {
-        const data = new FormData();
-        data.append("name", file.name);
-        data.append("file", file);
-
-        const response = await uploadFile(data);
-        setResult(response.path);
-      }
-    }
-    getImage();
-  }, [file])
-
-  const onUploadClick = () => {
-    fileInputRef.current.click();
-  }
+function App() {
+  const [count, setCount] = useState(0)
 
   return (
-    <div className='container'>
-      <div className='wrapper'>
-         <h1>Share any files you want</h1>        
-        <button onClick={() => onUploadClick()}>Upload</button>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={(e) => setFile(e.target.files[0])}
-        />
-
-        <a href={result} target='_blank'>{result}</a> 
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
       </div>
-    </div>
-  );
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
+export default App
