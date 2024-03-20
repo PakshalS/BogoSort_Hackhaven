@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
-import File from './File'; // Import the File model
+import File from './models/file.js'; // Import the File model
 
 dotenv.config();
 
