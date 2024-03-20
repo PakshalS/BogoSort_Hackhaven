@@ -46,6 +46,7 @@ function ImageUploader() {
       })
       .catch((error) => {
         console.error('Error uploading image:', error);
+        console.log(formData)
         // Handle error
       });
       const email = getEmailFromSession();
