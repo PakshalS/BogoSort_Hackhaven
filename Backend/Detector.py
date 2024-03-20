@@ -80,7 +80,7 @@ def submit_form():
             return jsonify(redirect_url="/"), 200
         else:
             #verify the image dumbass
-            
+            print(data.get('msg').get('email'))
             print("forwarding to meeting")
             return jsonify(redirect_url="/meeting"), 200
     except AttributeError: #FOR MEETING
