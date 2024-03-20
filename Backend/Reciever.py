@@ -20,38 +20,49 @@ fs = GridFS(mongo.db)
 db = mongo.db.Login_details
 
 
-
 def finder(str):
     result=db.find({"email":str})
     document=[doc for doc in result]
-    print(document[1])
+    #print(document[1])
     return document
 
 @app.route('/', methods=['POST','GET'])
 def submit_form():
     data = request.json
     #print(data)
-    result=data.get('msg')
-    #print(result)
-    if result.get('username')!="":
-        db.insert_one({
-            "username":result.get('username'),
-            "password":bcrypt.generate_password_hash(result.get('password')).decode('utf-8'),
-            "email":result.get('email')
-        })
-        db.create_index([("username", 1)], unique=True)
-        return jsonify(redirect_url="/"), 200
-    else:
-        user=result.get('email')
-        print("YAY")
-        doc=finder(user)
-        if bcrypt.check_password_hash(doc[0].get('password'), result.get('password')):
-            print("CORRECT PASSWORD")
-            return jsonify(redirect_url="/dashboard"), 200
-
+    try:
+        result=data.get('msg')
+        #print(result)
+        if result.get('username')!="":
+            db.insert_one({
+                "username":result.get('username'),
+                "password":bcrypt.generate_password_hash(result.get('password')).decode('utf-8'),
+                "email":result.get('email')
+            })
+            db.create_index([("username", 1)], unique=True)
+            session['message']=result.get('email')
+            return jsonify(redirect_url="/"), 200
         else:
-            print("WRONG PASSWORD")
-            return jsonify(redirect_url= "/"), 400
+            user=result.get('email')
+            print("YAY")
+            doc=finder(user)
+            if bcrypt.check_password_hash(doc[0].get('password'), result.get('password')):
+                print("CORRECT PASSWORD")
+                session['message']=result.get('email')
+                #print(session.get('message'))
+                return jsonify(redirect_url="/dashboard"), 200
+    
+
+            else:
+                print("WRONG PASSWORD")
+                return jsonify(redirect_url= "/"), 400
+    
+    except AttributeError:
+        print("HEHE")
+        result=data.get('base64').get('image')[22:]
+        email=session.get('message')
+        print(email)
+        return jsonify(redirect_url="/dashboard"), 200
 
 
 
