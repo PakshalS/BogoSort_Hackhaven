@@ -41,6 +41,7 @@ export default function Meeting() {
           userList.forEach(user => {
               user.setUserAvatar("https://xxx.xxx.xx/xx.png")
           })
+        
       }, 
         sharedLinks: [
           {
@@ -64,6 +65,7 @@ export default function Meeting() {
         showMyCameraToggleButton: true,
         showRemoveUserButton: true,
         showOnlyAudioUser: true
+        
    });
   };
 
