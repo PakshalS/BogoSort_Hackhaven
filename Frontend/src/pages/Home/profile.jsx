@@ -52,7 +52,6 @@ function ImageUploader() {
       console.warn('No image selected for upload.');
     }
     console.log(imagePreview)
-   
   };
 
   return (

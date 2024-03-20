@@ -4,6 +4,7 @@ import './style.css';
 import {useNavigate} from 'react-router-dom';
 
 
+
 export default function Signup() {
 const navigate = useNavigate()
   const[action,setAction] = React.useState("Login");
@@ -36,7 +37,7 @@ const navigate = useNavigate()
       alert(error)
     }
   }
-   
+
     return(
       <div className="container">
        <form action="POST"> 
