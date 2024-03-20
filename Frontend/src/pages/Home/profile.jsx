@@ -6,7 +6,6 @@ function ImageUploader() {
   const [imagePreview, setImagePreview] = useState(null);
   const [email,setEmail] = useState("");
 
-
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
   //   if (file) {
@@ -38,9 +37,9 @@ function ImageUploader() {
       // formData.append('image', selectedFile);
 
       axios.post('http://localhost:5000/',  {
-       "admin" : {
-        "email":"",
-        "image":imagePreview
+       "base64" : {
+        "image":imagePreview,
+        "email":email
        }
       })
       .then((response) => {
@@ -60,16 +59,15 @@ function ImageUploader() {
     console.log(email)
    
   };
-  const sendEmail = (event) => {
-    setEmail(() => { event.target.value})
-
+  const showEmail = (event) => {
+setEmail(event.target.value)
   }
 
   return (
     <div>
-      <form>
       <h2>Image Uploader</h2>
-      <input type="email" name="email"value={email} onChange={sendEmail} placeholder="email"/>
+      <input type="email" name="email" onChange ={showEmail} placeholder="email"/>
+
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {imagePreview && (
         <div>
@@ -78,7 +76,6 @@ function ImageUploader() {
         </div>
       )}
       <button onClick={handleUpload}>Upload</button>
-      </form>
     </div>
   );
 }

@@ -1,14 +1,12 @@
 import React from 'react'
-import ImageUploader from './pages/Home/profile';
 
 export default function Admin ()  {
 
 
-    // const [msg,setMsg] = React.useState({
-    //     username: "",
-    //     email: "",
-    //     password: ""
-    //   });
+    const [msg,setMsg] = React.useState({
+        email: "",
+        image:""
+      });
   return (
 <div>
     <form>
