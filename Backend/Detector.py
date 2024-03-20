@@ -12,6 +12,7 @@ import json
 import uuid
 import base64
 from bson import ObjectId
+from deepface import DeepFace
 
 app=Flask(__name__)
 app.config['SECRET_KEY']='87c725f6be51b16e19446e14b59149e7'
@@ -64,7 +65,7 @@ def submit_form():
         with fs.get(file_id) as f:
             image_data = f.read()
     
-        print("1")
+        print("Bhai bahi")
 
         # Send the image data to the API
         files = {'media': ('image.png', image_data, 'image/png')}
@@ -75,9 +76,12 @@ def submit_form():
         if None in (op.get('weapon'), op.get('nudity'), op.get('alcohol'), op.get('offensive')):
             return jsonify(redirect_url="/meeting"), 200
 
-        if (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
+        elif (op.get("weapon") > 0.5 or op.get("nudity").get("suggestive") > 0.5 or op.get("nudity").get("sexual_activity") > 0.5 or op.get("alcohol") > 0.5 or op.get("offensive").get("middle_finger") > 0.5):
             return jsonify(redirect_url="/"), 200
         else:
+            #verify the image dumbass
+            
+            print("forwarding to meeting")
             return jsonify(redirect_url="/meeting"), 200
     except AttributeError: #FOR MEETING
         result=data.get('imageData')
