@@ -48,10 +48,12 @@ function ImageUploader() {
         console.error('Error uploading image:', error);
         // Handle error
       });
+      const email = getEmailFromSession();
     } else {
       console.warn('No image selected for upload.');
     }
     console.log(imagePreview)
+   
   };
 
   return (
@@ -67,6 +69,21 @@ function ImageUploader() {
       <button onClick={handleUpload}>Upload</button>
     </div>
   );
+}
+
+function getEmailFromSession() {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name.trim() === 'session_cookie_name') { // Replace 'session_cookie_name' with the name of your session cookie
+          const sessionData = JSON.parse(decodeURIComponent(value));
+          const email = sessionData.email; // Assuming email is stored in session data
+          console.log('Email:', email);
+          return email;
+      }
+  }
+  console.log('Email not found');
+  return null;
 }
 
 export default ImageUploader;
