@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import { uploadFile } from './service/api.js';
 
-function App() {
+export default function Appclient() {
   const [file, setFile] = useState('');
   const [result, setResult] = useState('');
 
@@ -30,11 +30,8 @@ function App() {
 
   return (
     <div className='container'>
-      <img src={url} className='img' />
       <div className='wrapper'>
-        <h1>Simple file sharing!</h1>
-        <p>Upload and share the download link.</p>
-        
+         <h1>Share any files you want</h1>        
         <button onClick={() => onUploadClick()}>Upload</button>
         <input
           type="file"
@@ -49,4 +46,3 @@ function App() {
   );
 }
 
-export default App;

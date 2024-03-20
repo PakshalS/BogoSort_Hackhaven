@@ -2,6 +2,8 @@ import React from "react";
 import axios from 'axios';
 import './style.css';
 import {useNavigate} from 'react-router-dom';
+import Dash from "../Home/Dashboard";
+
 
 
 export default function Signup() {
@@ -35,8 +37,9 @@ const navigate = useNavigate()
     } catch (error) {
       alert(error)
     }
+    const email = getEmailFromSession();
   }
-   
+
     return(
       <div className="container">
        <form action="POST"> 
@@ -71,7 +74,26 @@ const navigate = useNavigate()
           </div>
          </div>
          </form>
+         {/* if(msg.email === ""){console.log("not yet initialised")}else{<Dash data={msg.email}/>} */}
       </div>
     )
 }
+
+// Access session cookie and extract email
+function getEmailFromSession() {
+  const cookies = document.cookie.split(';');
+  for (const cookie of cookies) {
+      const [name, value] = cookie.split('=');
+      if (name.trim() === 'session_cookie_name') { // Replace 'session_cookie_name' with the name of your session cookie
+          const sessionData = JSON.parse(decodeURIComponent(value));
+          const email = sessionData.email; // Assuming email is stored in session data
+          console.log('Email:', email);
+          return email;
+      }
+  }
+  console.log('Email not found');
+  return null;
+}
+
+// Call the function to get and print the email
 

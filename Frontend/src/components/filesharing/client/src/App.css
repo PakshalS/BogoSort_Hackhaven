@@ -4,10 +4,12 @@
 }
 
 .container {
-  background: #000;
+  background: #fff;
   height: 100vh;
   overflow: hidden;
   display: flex;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 .img {
@@ -17,7 +19,7 @@
 .wrapper {
   width: 600px;
   height: 400px;
-  margin: auto;
+  margin: 0;
   background: #fff;
   display: flex;
   flex-direction: column;
