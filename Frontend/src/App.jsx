@@ -9,11 +9,7 @@ export default function App() {
      <Routes>
         <Route path='/' element={<Signup/>}></Route>
         <Route path='/dashboard' element={<Dash/>}></Route>
-        <Route path='/meeting' 
-        element={<>
-          <Meeting/>
-        </>}>
-        </Route>
+        <Route path='/meeting' element={<Meeting/>}></Route>
        </Routes>
   )
 }
