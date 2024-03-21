@@ -8,6 +8,7 @@ import urllib.parse
 from flask_cors import CORS,cross_origin
 from flask_bcrypt import Bcrypt
 
+
 app=Flask(__name__)
 CORS(app)
 bcrypt=Bcrypt(app)

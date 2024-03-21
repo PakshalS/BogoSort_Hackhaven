@@ -1,6 +1,4 @@
 from deepface import DeepFace
 import json
-
-result=DeepFace.verify(img1_path="Selfie.png",img2_path="Selfie2.png")
-
-print(json.dumps(result,indent=2))
+veri = DeepFace.verify(img1_path="aadi.jpg", img2_path="Diksh.jpg")
+print(json.dumps(veri, indent=3))
