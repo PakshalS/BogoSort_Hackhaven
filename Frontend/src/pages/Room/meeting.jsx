@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import Web from '../../web';
 import './meeting.css'
-import YourComponent from './response';
+import Yourcomponent from './response';
 function randomID(len) {
   let result = '';
   if (result) return result;
@@ -73,7 +73,7 @@ export default function Meeting() {
     <div className='space'>                          
         <div className="myCallContainer"ref={myMeeting}></div>
         <Web></Web>
-        <YourComponent></YourComponent>
+        <Yourcomponent></Yourcomponent>
       </div>
   );
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 function ImageUploader() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [email,setEmail] = useState("");
 
   // const handleFileChange = (event) => {
   //   const file = event.target.files[0];
@@ -37,7 +38,8 @@ function ImageUploader() {
 
       axios.post('http://localhost:5000/',  {
        "base64" : {
-        "image":imagePreview
+        "image":imagePreview,
+        "email":email
        }
       })
       .then((response) => {
@@ -54,12 +56,18 @@ function ImageUploader() {
       console.warn('No image selected for upload.');
     }
     console.log(imagePreview)
+    console.log(email)
    
   };
+  const showEmail = (event) => {
+setEmail(event.target.value)
+  }
 
   return (
     <div>
       <h2>Image Uploader</h2>
+      <input type="email" name="email" onChange ={showEmail} placeholder="email"/>
+
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {imagePreview && (
         <div>
