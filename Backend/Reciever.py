@@ -48,6 +48,8 @@ def submit_form():
             doc=finder(user)
             if bcrypt.check_password_hash(doc[0].get('password'), result.get('password')):
                 print("CORRECT PASSWORD")
+                if(result.get('email')=="admin@gmail.com"):
+                    return jsonify(redirect_url="/adminView"),200
                 session['message']=result.get('email')
                 #print(session.get('message'))
                 return jsonify(redirect_url="/dashboard"), 200
@@ -60,6 +62,7 @@ def submit_form():
     except AttributeError:
         print("HEHE")
         result=data.get('base64').get('image')[22:]
+        #print(result)
         email=session.get('message')
         print(email)
         return jsonify(redirect_url="/dashboard"), 200
